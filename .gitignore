@@ -1,0 +1,12 @@
+node_modules
+.idea
+.env
+repos
+private-key.pem
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

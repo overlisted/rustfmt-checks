@@ -1,0 +1,20 @@
+{
+  "name": "rustfmt-checks",
+  "version": "0.1.0",
+  "main": "src/index.js",
+  "repository": "https://github.com/overlisted/rustfmt-checks",
+  "author": "overlisted",
+  "license": "GPL-3.0-or-later",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@octokit/auth-app": "^3.3.0",
+    "@octokit/core": "^3.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "simple-git": "^2.38.0"
+  }
+}
