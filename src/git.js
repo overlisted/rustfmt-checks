@@ -1,16 +1,24 @@
 import simpleGit from "simple-git";
 import exists from "./exists.js";
 
+const update = async (git, remote) => {
+  await git.removeRemote("origin");
+  await git.addRemote("origin", remote);
+
+  await git.fetch();
+}
+
 export const cloneRepo = async (installationToken, path, repository, revision) => {
   const isNew = !await exists(path);
+  const repoUrl = `https://x-access-token:${installationToken}@github.com/${repository.full_name}.git`;
 
   if(isNew) {
-    await simpleGit().clone(`https://x-access-token:${installationToken}@github.com/${repository.full_name}.git`, path);
+    await simpleGit().clone(repoUrl, path);
   }
 
   const git = simpleGit(path);
 
-  if(!isNew) await git.fetch();
+  if(!isNew) await update(git, repoUrl);
 
   await git.checkout(revision);
 
