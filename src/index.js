@@ -5,7 +5,7 @@ import { createRun, beginRun, finishRun } from "./checkrun.js";
 import { checkProject, checkRustfmt, formatProject } from "./rustfmt.js";
 import { config } from "dotenv";
 import { readFile } from "fs/promises";
-import { cloneRepo, pushChanges } from "./git.js";
+import { cloneRepo, pull, pushChanges } from "./git.js";
 import exists from "./exists.js";
 
 config();
@@ -101,7 +101,7 @@ const main = async () => {
 
                 console.log("== check run action ==");
                 console.log("updating the repo");
-                await cloneRepo(credentials.token, path, repository, check_run.check_suite.head_branch);
+                await pull(credentials.token, path, repository, check_run.check_suite.head_branch);
                 console.log("running rustfmt");
                 await formatProject(path);
                 console.log("pushing");

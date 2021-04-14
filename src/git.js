@@ -25,6 +25,13 @@ export const cloneRepo = async (installationToken, path, repository, revision) =
   return git;
 };
 
+export const pull = async (installationToken, path, repository, branch) => {
+  const git = simpleGit(path)
+
+  await git.checkout(branch);
+  await git.pull(`https://x-access-token:${installationToken}@github.com/${repository.full_name}.git`, branch);
+};
+
 export const pushChanges = async (installationToken, path, repository, branch, commitMessage) => {
   const git = simpleGit(path);
 
