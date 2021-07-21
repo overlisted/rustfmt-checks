@@ -112,7 +112,7 @@ const main = async () => {
 
   createServer(createNodeMiddleware(github)).listen(process.env.PORT);
 
-  console.info("im running")
+  console.info(`im running (localhost:${process.env.PORT})`)
 }
 
 main();
