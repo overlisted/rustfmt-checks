@@ -5,7 +5,7 @@ const commands = {
   rustfmt: `${process.env.HOME}/.cargo/bin/rustfmt`
 };
 
-export const checkRustfmt = () => spawnSync("rustfmt --version").error;
+export const checkRustfmt = () => spawnSync(`${commands.rustfmt} --version`).error;
 
 export const formatCode = text => execSync(commands.rustfmt, { input: text });
 export const formatFile = path => execSync(`${commands.rustfmt} ${path}`);
