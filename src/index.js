@@ -40,14 +40,34 @@ const main = async () => {
   });
 
   github.webhooks.on(
-    ["check_suite.requested", "check_suite.rerequested", "check_run.rerequested"],
+    ["check_suite.requested", "check_suite.rerequested"],
     async ({ octokit, payload }) => {
-      const revision = payload.check_run?.head_sha ?? payload.check_suite?.head_sha;
+      if(payload.check_suite.app.id.toString() !== process.env.APP_ID) {
+        return;
+      }
+
+      const revision = payload.check_suite.head_sha;
+
+      await createRun(octokit, payload.repository, revision);
+    });
+
+  github.webhooks.on(
+    "check_run.rerequested",
+    async ({ octokit, payload }) => {
+      if(payload.check_run.check_suite.app.id.toString() !== process.env.APP_ID) {
+        return;
+      }
+
+      const revision = payload.check_run.head_sha;
 
       await createRun(octokit, payload.repository, revision);
   });
 
   github.webhooks.on("check_run.created", async ({ payload }) => {
+    if(payload.check_run.check_suite.app.id.toString() !== process.env.APP_ID) {
+      return;
+    }
+
     const [octokit, token] = await logIntoInstallation(github.octokit, payload.installation.id);
     const revision = payload.check_run?.head_sha ?? payload.check_suite?.head_sha;
 
